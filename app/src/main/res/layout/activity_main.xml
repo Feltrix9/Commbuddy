@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#E0F5D0">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Comidas"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:paddingBottom="16dp" />
+
+    <ImageButton
+        android:id="@+id/btnBreakfast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_breakfast"
+        android:background="@null"
+        android:contentDescription="Desayuno"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvBreakfast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Desayuno"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:paddingBottom="24dp" />
+
+    <ImageButton
+        android:id="@+id/btnLunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_lunch"
+        android:background="@null"
+        android:contentDescription="Almuerzo"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvLunch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Almuerzo"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:paddingBottom="24dp" />
+
+    <ImageButton
+        android:id="@+id/btnDinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_dinner"
+        android:background="@null"
+        android:contentDescription="Cena"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvDinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cena"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="#000000" />
+
+</LinearLayout>
