@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#E0F5D0">
+
+    <!-- Título de la página -->
+    <TextView
+        android:id="@+id/tvBreakfastTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Desayuno"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Para hoy"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:paddingBottom="16dp" />
+
+    <!-- Grilla de opciones -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false"
+        android:rowCount="3"
+        android:padding="4dp">
+
+        <!-- Jugo -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_juice"
+                android:background="@null"
+                android:contentDescription="Jugo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jugo"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Té -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_tea"
+                android:background="@null"
+                android:contentDescription="Té" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Té"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Leche -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_milk"
+                android:background="@null"
+                android:contentDescription="Leche" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Leche"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Yogurt -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_yoghurt"
+                android:background="@null"
+                android:contentDescription="Yogurt" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yogurt"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Pan -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_bread"
+                android:background="@null"
+                android:contentDescription="Pan" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pan"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Muffin -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_moffin"
+                android:background="@null"
+                android:contentDescription="Muffin" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Muffin"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Huevo -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_egg"
+                android:background="@null"
+                android:contentDescription="Huevo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Huevo"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Manzana -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_apple"
+                android:background="@null"
+                android:contentDescription="Manzana" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manzana"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Añadir vacío -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add"
+                android:background="@null"
+                android:contentDescription="Añadir" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vacio"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+    </GridLayout>
+
+    <!-- Barra de preguntas o mensajes -->
+    <EditText
+        android:id="@+id/etQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="¿Qué es lo que queremos hoy?"
+        android:textColor="#000000"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp" />
+
+</LinearLayout>
