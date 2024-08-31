@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import android.media.MediaPlayer;
 import android.content.Intent;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton btnBreakfast, btnLunch, btnDinner;
     private MediaPlayer mediaPlayerBreakfast, mediaPlayerLunch, mediaPlayerDinner;
+    private Button btnGoToCrud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayerBreakfast = MediaPlayer.create(this, R.raw.breakfast_sound);
         mediaPlayerLunch = MediaPlayer.create(this, R.raw.lunch_sound);
         mediaPlayerDinner = MediaPlayer.create(this, R.raw.dinner_sound);
+
+        btnGoToCrud = findViewById(R.id.btnGoToCrud);
+
 
         // Verificar si los archivos de sonido existen
         if (mediaPlayerLunch == null) {
@@ -67,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnGoToCrud.setOnClickListener(view -> {
+            // Navegar a la actividad CRUD
+            Intent intent = new Intent(MainActivity.this, CrudActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     private void playSound(MediaPlayer mediaPlayer) {

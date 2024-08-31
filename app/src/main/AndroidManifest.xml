@@ -22,6 +22,8 @@
             <activity android:name=".BreakfastActivity" />
             <activity android:name=".LunchActivity"/>
             <activity android:name=".DinnerActivity"/>
+            <activity android:name=".CrudActivity"></activity>
+
     </application>
 
 </manifest>

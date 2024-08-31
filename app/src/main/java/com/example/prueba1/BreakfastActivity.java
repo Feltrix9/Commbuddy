@@ -40,7 +40,7 @@ public class BreakfastActivity extends AppCompatActivity {
         findViewById(R.id.imageButtonApple).setOnClickListener(view -> playSound(mediaPlayerApple));
         findViewById(R.id.imageButtonWater).setOnClickListener(view -> playSound(mediaPlayerWater));
 
-        Button backButton = findViewById(R.id.buttonBack);
+        Button backButton = findViewById(R.id.btnVolver);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
