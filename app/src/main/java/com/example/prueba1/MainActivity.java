@@ -79,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        Button btnPersonalizados = findViewById(R.id.btnPersonalizados);
+        btnPersonalizados.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, PersonalizadosActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     private void playSound(MediaPlayer mediaPlayer) {
