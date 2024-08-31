@@ -19,10 +19,10 @@
 
     <!-- Título de la página -->
     <TextView
-        android:id="@+id/tvBreakfastTitle"
+        android:id="@+id/tvLunchTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Desayuno"
+        android:text="Almuerzo"
         android:textSize="24sp"
         android:textAlignment="center"
         android:textColor="#000000"
@@ -37,8 +37,6 @@
         android:textAlignment="center"
         android:textColor="#000000"
         android:paddingBottom="16dp" />
-
-
 
     <!-- Grilla de opciones -->
     <GridLayout
@@ -74,7 +72,7 @@
                 android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Té -->
+        <!-- Carne -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -83,22 +81,22 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/imageButtonTea"
+                android:id="@+id/imageButtonMeat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_tea"
+                android:src="@drawable/ic_meat"
                 android:background="@null"
-                android:contentDescription="Té" />
+                android:contentDescription="Carne" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Té"
+                android:text="Carne"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Leche -->
+        <!-- Refresco -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -107,22 +105,22 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/imageButtonMilk"
+                android:id="@+id/imageButtonSoda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_milk"
+                android:src="@drawable/ic_soda"
                 android:background="@null"
-                android:contentDescription="Leche" />
+                android:contentDescription="Refresco" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Leche"
+                android:text="Refresco"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Yogurt -->
+        <!-- Pasta -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -131,22 +129,22 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/imageButtonYogurt"
+                android:id="@+id/imageButtonPasta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_yoghurt"
+                android:src="@drawable/ic_pasta"
                 android:background="@null"
-                android:contentDescription="Yogurt" />
+                android:contentDescription="Pasta" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yogurt"
+                android:text="Pasta"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Pan -->
+        <!-- Arroz -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -155,22 +153,22 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/imageButtonBread"
+                android:id="@+id/imageButtonRice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_bread"
+                android:src="@drawable/ic_rice"
                 android:background="@null"
-                android:contentDescription="Pan" />
+                android:contentDescription="Arroz" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pan"
+                android:text="Arroz"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Muffin -->
+        <!-- Puré de papas -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -179,17 +177,17 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/imageButtonMuffin"
+                android:id="@+id/imageButtonMash_potatoes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_moffin"
+                android:src="@drawable/ic_mash_potatoes"
                 android:background="@null"
-                android:contentDescription="Muffin" />
+                android:contentDescription="Puré de papas" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Muffin"
+                android:text="Puré de papas"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
@@ -218,6 +216,54 @@
                 android:textColor="#000000" />
         </LinearLayout>
 
+        <!-- Sopa -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/imageButtonSoup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_soup"
+                android:background="@null"
+                android:contentDescription="Sopa" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sopa"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Agua -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/imageButtonWater"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_water"
+                android:background="@null"
+                android:contentDescription="Agua" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agua"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
         <!-- Manzana -->
         <LinearLayout
             android:layout_width="0dp"
@@ -242,7 +288,7 @@
                 android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Aguita -->
+        <!-- Lechuga -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -251,40 +297,17 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/imageButtonWater"
+                android:id="@+id/imageButtonLettuce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_water"
+                android:src="@drawable/ic_lettuce"
                 android:background="@null"
-                android:contentDescription="Agua" />
+                android:contentDescription="Lechuga" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Agua"
-                android:textAlignment="center"
-                android:textColor="#000000" />
-        </LinearLayout>
-
-        <!-- Añadir vacío -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                android:background="@null"
-                android:contentDescription="Añadir" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vacio"
+                android:text="Lechuga"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
@@ -311,26 +334,5 @@
                 android:textColor="#000000" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                android:background="@null"
-                android:contentDescription="Añadir" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vacio"
-                android:textAlignment="center"
-                android:textColor="#000000" />
-        </LinearLayout>
     </GridLayout>
 </LinearLayout>

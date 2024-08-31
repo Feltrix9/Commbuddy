@@ -4,19 +4,19 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-public class BreakfastActivity extends AppCompatActivity {
+public class DinnerActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayerJuice, mediaPlayerTea, mediaPlayerMilk, mediaPlayerYogurt,
-            mediaPlayerBread, mediaPlayerMuffin, mediaPlayerEgg, mediaPlayerApple, mediaPlayerWater;
+            mediaPlayerBread, mediaPlayerMuffin, mediaPlayerEgg, mediaPlayerApple, mediaPlayerWater, mediaPlayerCookie;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_breakfast);
+        setContentView(R.layout.activity_dinner);
 
         // Inicializar MediaPlayer para cada botón
         mediaPlayerJuice = MediaPlayer.create(this, R.raw.juice_sound);
@@ -28,6 +28,7 @@ public class BreakfastActivity extends AppCompatActivity {
         mediaPlayerEgg = MediaPlayer.create(this, R.raw.egg_sound);
         mediaPlayerApple = MediaPlayer.create(this, R.raw.apple_sound);
         mediaPlayerWater = MediaPlayer.create(this, R.raw.water_sound);
+        mediaPlayerCookie = MediaPlayer.create(this, R.raw.cookie_sound);
 
         // Configurar listeners para cada botón
         findViewById(R.id.imageButtonJuice).setOnClickListener(view -> playSound(mediaPlayerJuice));
@@ -39,6 +40,7 @@ public class BreakfastActivity extends AppCompatActivity {
         findViewById(R.id.imageButtonEgg).setOnClickListener(view -> playSound(mediaPlayerEgg));
         findViewById(R.id.imageButtonApple).setOnClickListener(view -> playSound(mediaPlayerApple));
         findViewById(R.id.imageButtonWater).setOnClickListener(view -> playSound(mediaPlayerWater));
+        findViewById(R.id.imageButtonCookie).setOnClickListener(view -> playSound(mediaPlayerCookie));
 
         Button backButton = findViewById(R.id.buttonBack);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +71,7 @@ public class BreakfastActivity extends AppCompatActivity {
         releaseMediaPlayer(mediaPlayerEgg);
         releaseMediaPlayer(mediaPlayerApple);
         releaseMediaPlayer(mediaPlayerWater);
+        releaseMediaPlayer(mediaPlayerCookie);
     }
 
     private void releaseMediaPlayer(MediaPlayer mediaPlayer) {
@@ -77,8 +80,5 @@ public class BreakfastActivity extends AppCompatActivity {
             mediaPlayer = null;
         }
     }
-
-
-
     }
 

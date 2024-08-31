@@ -20,6 +20,8 @@
                 </intent-filter>
             </activity>
             <activity android:name=".BreakfastActivity" />
+            <activity android:name=".LunchActivity"/>
+            <activity android:name=".DinnerActivity"/>
     </application>
 
 </manifest>
