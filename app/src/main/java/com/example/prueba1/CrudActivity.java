@@ -1,7 +1,7 @@
 package com.example.prueba1;
 
+
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +16,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CrudActivity extends AppCompatActivity {
 
@@ -29,6 +37,7 @@ public class CrudActivity extends AppCompatActivity {
     private TextView textViewAudioSelected;
     private String selectedImagePath;
     private String selectedAudioPath;
+    private LinearLayout linearLayoutButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +48,11 @@ public class CrudActivity extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextName);
         imageViewSelected = findViewById(R.id.imageViewSelected);
         textViewAudioSelected = findViewById(R.id.textViewAudioSelected);
+        linearLayoutButtons = findViewById(R.id.linearLayoutButtons);
 
         Button buttonSelectImage = findViewById(R.id.buttonSelectImage);
         Button buttonSelectAudio = findViewById(R.id.buttonSelectAudio);
         Button buttonAdd = findViewById(R.id.buttonAdd);
-
-        LinearLayout linearLayoutButtons = findViewById(R.id.linearLayoutButtons);
 
         // Seleccionar Imagen
         buttonSelectImage.setOnClickListener(view -> {
@@ -66,14 +74,24 @@ public class CrudActivity extends AppCompatActivity {
                 return;
             }
 
-            boolean isInserted = db.insertData(name, selectedImagePath, selectedAudioPath);
-            if (isInserted) {
-                Toast.makeText(CrudActivity.this, "Objeto agregado", Toast.LENGTH_SHORT).show();
-                addButton(linearLayoutButtons, name, selectedImagePath, selectedAudioPath);
-            } else {
-                Toast.makeText(CrudActivity.this, "Error al agregar objeto", Toast.LENGTH_SHORT).show();
-            }
+            // Get URIs from selectedImagePath and selectedAudioPath (assuming these are file paths)
+            Uri imageUri = Uri.parse(selectedImagePath);
+            Uri audioUri = Uri.parse(selectedAudioPath);
+
+            db.uploadImage(imageUri, name + "_image");
+            db.uploadAudio(audioUri, name + "_audio");
+
+            // After uploads are complete (or you want to store references)
+            db.insertData(name, "gs://commbuddy-ddcd7.appspot.com/images/" + name + "_image",
+                    "gs://commbuddy-ddcd7.appspot.com/audio/" + name + "_audio");
+            Toast.makeText(CrudActivity.this, "Objeto agregado", Toast.LENGTH_SHORT).show();
+            editTextName.setText("");
+            imageViewSelected.setImageResource(android.R.color.transparent);
+            textViewAudioSelected.setText("");
+            selectedImagePath = null;
+            selectedAudioPath = null;
         });
+
         Button backButton = findViewById(R.id.btnVolver);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,21 +100,18 @@ public class CrudActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         // Cargar los botones existentes desde la base de datos
-        loadExistingData(linearLayoutButtons);
+        loadExistingData();
     }
 
-    private void loadExistingData(LinearLayout linearLayoutButtons) {
-        Cursor res = db.getAllData();
-        if (res.getCount() == 0) {
-            return;
-        }
-        while (res.moveToNext()) {
-            String name = res.getString(1);
-            String imagePath = res.getString(2);
-            String audioPath = res.getString(3);
-            addButton(linearLayoutButtons, name, imagePath, audioPath);
-        }
+    private void loadExistingData() {
+        db.getAllData(new DatabaseHelper.DataChangeListener() {
+            @Override
+            public void onDataChange(String name, String imagePath, String audioPath) {
+                addButton(linearLayoutButtons, name, imagePath, audioPath);
+            }
+        });
     }
 
     private void addButton(LinearLayout linearLayoutButtons, String name, String imagePath, String audioPath) {
@@ -104,14 +119,10 @@ public class CrudActivity extends AppCompatActivity {
         newButton.setText(name);
 
         newButton.setOnClickListener(view -> {
-            // Aquí puedes agregar el código para reproducir el audio o mostrar la imagen
             Toast.makeText(CrudActivity.this, "Nombre: " + name, Toast.LENGTH_SHORT).show();
         });
 
         linearLayoutButtons.addView(newButton);
-
-
-
     }
 
     @Override
@@ -135,7 +146,4 @@ public class CrudActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 }
