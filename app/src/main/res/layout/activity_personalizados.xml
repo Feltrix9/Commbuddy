@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -30,17 +29,11 @@
         android:paddingBottom="16dp"
         android:layout_marginTop="16dp" />
 
-    <!-- Contenedor para los elementos personalizados -->
-    <ScrollView
+    <!-- RecyclerView para los elementos personalizados -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPersonalizados"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:id="@+id/linearLayoutPersonalizados"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp" />
-    </ScrollView>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp" />
 </LinearLayout>
