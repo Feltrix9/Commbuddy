@@ -1,19 +1,27 @@
 package com.example.prueba1;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class PersonalizadosActivity extends AppCompatActivity {
 
     private LinearLayout linearLayoutPersonalizados;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,25 +40,67 @@ public class PersonalizadosActivity extends AppCompatActivity {
             }
         });
 
-        // Obtener los elementos personalizados del CRUD
-        List<Personalizado> personalizados = PersonalizadoRepository.getInstance().getPersonalizados();
+        // Conectar con Firebase
+        mDatabase = FirebaseDatabase.getInstance().getReference("personalizados");
 
-        // Mostrar los elementos personalizados en la interfaz de usuario
-        for (Personalizado personalizado : personalizados) {
-            agregarElementoPersonalizado(personalizado);
-        }
+        // Cargar datos desde Firebase
+        cargarPersonalizadosDesdeFirebase();
+    }
+
+    private void cargarPersonalizadosDesdeFirebase() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Limpiar el layout antes de añadir nuevos elementos
+                linearLayoutPersonalizados.removeAllViews();
+
+                // Iterar sobre los elementos almacenados en Firebase
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> personalizadoData = (HashMap<String, Object>) snapshot.getValue();
+
+                    if (personalizadoData != null) {
+                        String nombre = (String) personalizadoData.get("nombre");
+                        String imagenResId = (String) personalizadoData.get("imagen");
+                        String sonidoResId = (String) personalizadoData.get("sonido");
+
+                        Log.d("Personalizados", "Elemento: " + nombre); // Agregar log para verificar que se obtienen datos
+
+                        // Verificar si los valores no son nulos
+                        if (nombre != null && imagenResId != null && sonidoResId != null) {
+                            // Crear un objeto personalizado
+                            Personalizado personalizado = new Personalizado(nombre, Integer.parseInt(imagenResId), Integer.parseInt(sonidoResId));
+                            // Mostrar el elemento en la interfaz
+                            agregarElementoPersonalizado(personalizado);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase", "Error al leer los datos", databaseError.toException());
+                Toast.makeText(PersonalizadosActivity.this, "Error al cargar datos", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void agregarElementoPersonalizado(Personalizado personalizado) {
-        // Crear una vista para mostrar el nombre del personalizado
+        // Crear un TextView para mostrar el nombre del personalizado
         TextView textView = new TextView(this);
         textView.setText(personalizado.getNombre());
         textView.setTextSize(18);
-        textView.setPadding(0, 16, 0, 16);
+        textView.setPadding(16, 16, 16, 16);
+        textView.setBackgroundResource(R.drawable.rounded_button); // Añadir borde redondeado si lo deseas
+        textView.setTextColor(getResources().getColor(android.R.color.black)); // Cambiar color si es necesario
 
         // Agregar la vista al layout
         linearLayoutPersonalizados.addView(textView);
 
-        // Aquí puedes agregar más lógica para mostrar imágenes, sonidos, etc.
+        // También puedes agregar más vistas, como imágenes o botones si es necesario
+        // Ejemplo: agregar imagen
+        // ImageView imageView = new ImageView(this);
+        // imageView.setImageResource(personalizado.getImagenResId());
+        // linearLayoutPersonalizados.addView(imageView);
     }
 }
+
