@@ -1,6 +1,5 @@
 package com.example.prueba1;
 
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,3 +61,4 @@ public class PersonalizadoRepository {
         void onError(String error);
     }
 }
+

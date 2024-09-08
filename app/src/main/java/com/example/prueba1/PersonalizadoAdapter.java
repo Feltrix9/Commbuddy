@@ -22,11 +22,11 @@ import java.util.List;
 public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdapter.PersonalizadoViewHolder> {
 
     private Context context;
-    private List<MediaItem> personalizadoList;  // Cambiar a MediaItem
+    private List<Personalizado> personalizadoList;
     private FirebaseStorage storage;
     private MediaPlayer mediaPlayer;
 
-    public PersonalizadoAdapter(Context context, List<MediaItem> personalizadoList) {
+    public PersonalizadoAdapter(Context context, List<Personalizado> personalizadoList) {
         this.context = context;
         this.personalizadoList = personalizadoList;
         this.storage = FirebaseStorage.getInstance();
@@ -41,14 +41,21 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
 
     @Override
     public void onBindViewHolder(@NonNull PersonalizadoViewHolder holder, int position) {
-        MediaItem personalizado = personalizadoList.get(position);  // Cambiar a MediaItem
+        Personalizado personalizado = personalizadoList.get(position);
 
-        holder.textViewNombre.setText(personalizado.getName());  // Usar los getters de MediaItem
+        holder.textViewNombre.setText(personalizado.getNombre());
+        Log.d("Imagen", "URL de la imagen: " + personalizado.getImagenPath());
 
-        // Cargar la imagen usando Glide
-        Glide.with(context)
-                .load(personalizado.getImagePath())  // Usar el getter correspondiente de MediaItem
-                .into(holder.imageButtonPersonalizado);
+        // Verificar y cargar la imagen usando Glide
+        if (personalizado.getImagenPath() != null && !personalizado.getImagenPath().isEmpty()) {
+            Glide.with(context)
+                    .load(personalizado.getImagenPath())
+                    .placeholder(R.drawable.placeholder_image) // Asegúrate de que estos recursos existen
+                    .error(R.drawable.error_image) // Asegúrate de que estos recursos existen
+                    .into(holder.imageButtonPersonalizado);
+        } else {
+            holder.imageButtonPersonalizado.setImageResource(R.drawable.placeholder_image); // Imagen por defecto
+        }
 
         // Reproducir el sonido cuando se haga clic en el ImageButton
         holder.imageButtonPersonalizado.setOnClickListener(v -> {
@@ -93,6 +100,3 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
         }
     }
 }
-
-
-
