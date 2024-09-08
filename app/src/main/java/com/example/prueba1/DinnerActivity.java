@@ -1,16 +1,22 @@
 package com.example.prueba1;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class DinnerActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayerDrinks, mediaPlayerTea, mediaPlayerMilk, mediaPlayerYogurt,
-            mediaPlayerFoots, mediaPlayerMuffin, mediaPlayerEgg, mediaPlayerApple, mediaPlayerWater, mediaPlayerCookie;
+            mediaPlayerFoods, mediaPlayerMuffin, mediaPlayerEgg, mediaPlayerApple, mediaPlayerWater;
+    private TextView textView;
+    private ImageButton imageButtonDrinks, btnDinnerFood, btnDinnerDrink;
 
 
     @Override
@@ -20,27 +26,41 @@ public class DinnerActivity extends AppCompatActivity {
 
         // Inicializar MediaPlayer para cada botón
         mediaPlayerDrinks = MediaPlayer.create(this, R.raw.drinks_sound);
-//        mediaPlayerTea = MediaPlayer.create(this, R.raw.tea_sound);
-//        mediaPlayerMilk = MediaPlayer.create(this, R.raw.milk_sound);
-//        mediaPlayerYogurt = MediaPlayer.create(this, R.raw.yogurt_sound);
-        mediaPlayerFoots = MediaPlayer.create(this, R.raw.foots_sound);
-//        mediaPlayerMuffin = MediaPlayer.create(this, R.raw.muffin_sound);
-//        mediaPlayerEgg = MediaPlayer.create(this, R.raw.egg_sound);
-//        mediaPlayerApple = MediaPlayer.create(this, R.raw.apple_sound);
-//        mediaPlayerWater = MediaPlayer.create(this, R.raw.water_sound);
+        mediaPlayerFoods = MediaPlayer.create(this, R.raw.foods_sound);
+
 
         // Configurar listeners para cada botón
         findViewById(R.id.imageButtonDrinks).setOnClickListener(view -> playSound(mediaPlayerDrinks));
-//        findViewById(R.id.imageButtonTea).setOnClickListener(view -> playSound(mediaPlayerTea));
-//        findViewById(R.id.imageButtonMilk).setOnClickListener(view -> playSound(mediaPlayerMilk));
-//        findViewById(R.id.imageButtonYogurt).setOnClickListener(view -> playSound(mediaPlayerYogurt));
-        findViewById(R.id.imageButtonFoot).setOnClickListener(view -> playSound(mediaPlayerFoots));
-//        findViewById(R.id.imageButtonMuffin).setOnClickListener(view -> playSound(mediaPlayerMuffin));
-//        findViewById(R.id.imageButtonEgg).setOnClickListener(view -> playSound(mediaPlayerEgg));
-//        findViewById(R.id.imageButtonApple).setOnClickListener(view -> playSound(mediaPlayerApple));
-//        findViewById(R.id.imageButtonWater).setOnClickListener(view -> playSound(mediaPlayerWater));
-//        findViewById(R.id.imageButtonCookie).setOnClickListener(view -> playSound(mediaPlayerCookie));
+        findViewById(R.id.imageButtonFoods).setOnClickListener(view -> playSound(mediaPlayerFoods));
 
+
+
+        // Inicializar botones
+        btnDinnerFood = findViewById(R.id.imageButtonFoods);
+        btnDinnerDrink = findViewById(R.id.imageButtonDrinks);
+
+
+
+        // Configurar listeners para abrir nuevas actividades
+        btnDinnerFood.setOnClickListener(view -> {
+            Toast.makeText(DinnerActivity.this, "Comida seleccionado", Toast.LENGTH_SHORT).show();
+            playSound(mediaPlayerFoods);
+            Intent intent = new Intent(DinnerActivity.this, DinnerFoodActivity.class);
+            startActivity(intent);
+        });
+
+        // Configurar listeners para abrir nuevas actividades
+        btnDinnerDrink.setOnClickListener(view -> {
+            Toast.makeText(DinnerActivity.this, "Bebestible seleccionado", Toast.LENGTH_SHORT).show();
+            playSound(mediaPlayerDrinks);
+            Intent intent = new Intent(DinnerActivity.this, DinnerDrinkActivity.class);
+            startActivity(intent);
+        });
+
+
+
+
+        // Botón para volver a la actividad anterior
         Button backButton = findViewById(R.id.btnVolver);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,15 +82,7 @@ public class DinnerActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         releaseMediaPlayer(mediaPlayerDrinks);
-//        releaseMediaPlayer(mediaPlayerTea);
-//        releaseMediaPlayer(mediaPlayerMilk);
-//        releaseMediaPlayer(mediaPlayerYogurt);
-        releaseMediaPlayer(mediaPlayerFoots);
-//        releaseMediaPlayer(mediaPlayerMuffin);
-//        releaseMediaPlayer(mediaPlayerEgg);
-//        releaseMediaPlayer(mediaPlayerApple);
-//        releaseMediaPlayer(mediaPlayerWater);
-//        releaseMediaPlayer(mediaPlayerCookie);
+        releaseMediaPlayer(mediaPlayerFoods);
     }
 
     private void releaseMediaPlayer(MediaPlayer mediaPlayer) {

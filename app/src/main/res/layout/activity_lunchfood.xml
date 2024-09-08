@@ -49,7 +49,7 @@
         android:rowCount="3"
         android:padding="4dp">
 
-        <!-- Jugo -->
+        <!-- Pasta -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -58,22 +58,22 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/imageButtonJuice"
+                android:id="@+id/imageButtonPasta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_juice"
+                android:src="@drawable/ic_pasta"
                 android:background="@null"
-                android:contentDescription="Jugo" />
+                android:contentDescription="Fideos" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jugo"
+                android:text="Fideos"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Refresco -->
+        <!-- Arroz -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -82,23 +82,23 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/imageButtonSoda"
+                android:id="@+id/imageButtonRice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_soda"
+                android:src="@drawable/ic_rice"
                 android:background="@null"
-                android:contentDescription="Refresco" />
+                android:contentDescription="Arroz" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Refresco"
+                android:text="Arroz"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
 
 
-        <!-- Agua -->
+        <!-- Pure -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -107,23 +107,22 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/imageButtonWater"
+                android:id="@+id/imageButtonMash_potatoes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_water"
+                android:src="@drawable/ic_mash_potatoes"
                 android:background="@null"
-                android:contentDescription="Agua" />
+                android:contentDescription="Pure" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Agua"
+                android:text="Pure de papas"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Vacio -->
-
+        <!-- Sopa -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -132,20 +131,22 @@
             android:gravity="center">
 
             <ImageButton
+                android:id="@+id/imageButtonSoup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
+                android:src="@drawable/ic_soup"
                 android:background="@null"
-                android:contentDescription="Añadir" />
+                android:contentDescription="Sopa" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vacio"
+                android:text="Sopa"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
 
+        <!-- Huevo -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -154,20 +155,22 @@
             android:gravity="center">
 
             <ImageButton
+                android:id="@+id/imageButtonEgg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
+                android:src="@drawable/ic_egg"
                 android:background="@null"
-                android:contentDescription="Añadir" />
+                android:contentDescription="Huevos" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vacio"
+                android:text="Huevos"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
 
+        <!-- Carne -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -176,19 +179,46 @@
             android:gravity="center">
 
             <ImageButton
+                android:id="@+id/imageButtonMeat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
+                android:src="@drawable/ic_meat"
                 android:background="@null"
-                android:contentDescription="Añadir" />
+                android:contentDescription="Carne" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vacio"
+                android:text="Carne"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
+
+        <!-- Lechuga -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/imageButtonLettuce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_lettuce"
+                android:background="@null"
+                android:contentDescription="Lechuga" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lechuga"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="0dp"
