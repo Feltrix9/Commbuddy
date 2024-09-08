@@ -40,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.imageView);
 
         // Cargar una imagen estática (opcional)
-        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/commbuddy-ddcd7.appspot.com/o/images%2Fsirve%3F_image?alt=media";
-        Picasso.get()
-                .load(imageUrl)
-                .placeholder(R.drawable.placeholder_image) // Imagen que se muestra mientras carga
-                .error(R.drawable.error_image) // Imagen en caso de error
-                .into(imageView);
+        //String imageUrl = "https://firebasestorage.googleapis.com/v0/b/commbuddy-ddcd7.appspot.com/o/images%2Fsirve%3F_image?alt=media";
+        //Picasso.get()
+        //        .load(imageUrl)
+        //        .placeholder(R.drawable.placeholder_image) // Imagen que se muestra mientras carga
+        //        .error(R.drawable.error_image) // Imagen en caso de error
+       //         .into(imageView);
 
         // Inicializar el MediaPlayer con el sonido
         mediaPlayerBreakfast = MediaPlayer.create(this, R.raw.breakfast_sound);

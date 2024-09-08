@@ -44,20 +44,15 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
         Personalizado personalizado = personalizadoList.get(position);
 
         holder.textViewNombre.setText(personalizado.getNombre());
-        Log.d("Imagen", "URL de la imagen: " + personalizado.getImagenPath());
 
-        // Verificar y cargar la imagen usando Glide
-        if (personalizado.getImagenPath() != null && !personalizado.getImagenPath().isEmpty()) {
-            Glide.with(context)
-                    .load(personalizado.getImagenPath())
-                    .placeholder(R.drawable.placeholder_image) // Asegúrate de que estos recursos existen
-                    .error(R.drawable.error_image) // Asegúrate de que estos recursos existen
-                    .into(holder.imageButtonPersonalizado);
+        // Verificar y cargar la imagen usando la URL fija según el nombre
+        String imageUrl = getImageUrlForName(personalizado.getNombre());
+        if (imageUrl != null) {
+            ImageLoader.loadImage(imageUrl, holder.imageButtonPersonalizado);
         } else {
             holder.imageButtonPersonalizado.setImageResource(R.drawable.placeholder_image); // Imagen por defecto
         }
 
-        // Reproducir el sonido cuando se haga clic en el ImageButton
         holder.imageButtonPersonalizado.setOnClickListener(v -> {
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -65,10 +60,9 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
                 mediaPlayer = null;
             }
 
-            // Obtener la referencia al sonido en Firebase Storage
+
             StorageReference sonidoRef = storage.getReferenceFromUrl(personalizado.getAudioPath());
 
-            // Descargar y reproducir el sonido
             sonidoRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 mediaPlayer = new MediaPlayer();
                 try {
@@ -82,6 +76,20 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
                 Log.e("Firebase", "Error al cargar el sonido", e);
             });
         });
+    }
+
+    private String getImageUrlForName(String name) {
+        if ("sirve?".equals(name)) {
+            return context.getString(R.string.url_sirve);
+        } else if ("lenny".equals(name)) {
+            return context.getString(R.string.url_lenny);
+        } else if ("Voz Victor".equals(name)) {
+            return context.getString(R.string.url_vozVictor);
+        }
+        // else if ("nombre_var".equals(name)) {
+        //return context.getString(R.string.url_nombre_var);
+        //}
+        return null; // Si no hay una URL definida para el nombre
     }
 
     @Override

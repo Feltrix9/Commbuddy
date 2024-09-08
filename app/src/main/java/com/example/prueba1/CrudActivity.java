@@ -1,6 +1,5 @@
 package com.example.prueba1;
 
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,15 +15,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CrudActivity extends AppCompatActivity {
 
@@ -38,6 +32,7 @@ public class CrudActivity extends AppCompatActivity {
     private String selectedImagePath;
     private String selectedAudioPath;
     private LinearLayout linearLayoutButtons;
+    private String selectedObjectId; // Para identificar el objeto a actualizar o eliminar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +48,8 @@ public class CrudActivity extends AppCompatActivity {
         Button buttonSelectImage = findViewById(R.id.buttonSelectImage);
         Button buttonSelectAudio = findViewById(R.id.buttonSelectAudio);
         Button buttonAdd = findViewById(R.id.buttonAdd);
+        Button buttonUpdate = findViewById(R.id.buttonUpdate);
+        Button buttonDelete = findViewById(R.id.buttonDelete);
 
         // Seleccionar Imagen
         buttonSelectImage.setOnClickListener(view -> {
@@ -84,42 +81,98 @@ public class CrudActivity extends AppCompatActivity {
             // After uploads are complete (or you want to store references)
             db.insertData(name, "gs://commbuddy-ddcd7.appspot.com/images/" + name + "_image",
                     "gs://commbuddy-ddcd7.appspot.com/audio/" + name + "_audio");
+
+            // Reset fields and reload data
+            resetFields();
             Toast.makeText(CrudActivity.this, "Objeto agregado", Toast.LENGTH_SHORT).show();
-            editTextName.setText("");
-            imageViewSelected.setImageResource(android.R.color.transparent);
-            textViewAudioSelected.setText("");
-            selectedImagePath = null;
-            selectedAudioPath = null;
+        });
+
+        // Actualizar Objeto
+        buttonUpdate.setOnClickListener(view -> {
+            if (selectedObjectId == null) {
+                Toast.makeText(CrudActivity.this, "No se ha seleccionado ningún objeto", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String name = editTextName.getText().toString();
+            if (name.isEmpty() || selectedImagePath == null || selectedAudioPath == null) {
+                Toast.makeText(CrudActivity.this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Get URIs from selectedImagePath and selectedAudioPath (assuming these are file paths)
+            Uri imageUri = Uri.parse(selectedImagePath);
+            Uri audioUri = Uri.parse(selectedAudioPath);
+
+            db.uploadImage(imageUri, name + "_image");
+            db.uploadAudio(audioUri, name + "_audio");
+
+            // Update data
+            db.updateData(selectedObjectId, name, "gs://commbuddy-ddcd7.appspot.com/images/" + name + "_image",
+                    "gs://commbuddy-ddcd7.appspot.com/audio/" + name + "_audio");
+
+            // Reset fields and reload data
+            resetFields();
+            Toast.makeText(CrudActivity.this, "Objeto actualizado", Toast.LENGTH_SHORT).show();
+        });
+
+        // Eliminar Objeto
+        buttonDelete.setOnClickListener(view -> {
+            if (selectedObjectId == null) {
+                Toast.makeText(CrudActivity.this, "No se ha seleccionado ningún objeto", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Obtener las rutas de los archivos (imagen y audio) asociados al objeto
+            db.getData(selectedObjectId, new DatabaseHelper.DataChangeListener() {
+                @Override
+                public void onDataChange(String key, String name, String imagePath, String audioPath) {
+                    // Eliminar los archivos de Firebase Storage
+                    deleteFileFromFirebaseStorage(imagePath);
+                    deleteFileFromFirebaseStorage(audioPath);
+
+                    // Después de eliminar los archivos, eliminar los datos de la base de datos
+                    db.deleteData(selectedObjectId);
+
+                    // Reset fields and reload data
+                    resetFields();
+                    Toast.makeText(CrudActivity.this, "Objeto eliminado", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         Button backButton = findViewById(R.id.btnVolver);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Cerrar la actividad actual y volver a la anterior
-                finish();
-            }
-        });
+        backButton.setOnClickListener(v -> finish());
 
         // Cargar los botones existentes desde la base de datos
         loadExistingData();
     }
 
     private void loadExistingData() {
+        // Limpiar los botones existentes antes de recargar
+        linearLayoutButtons.removeAllViews();
+
         db.getAllData(new DatabaseHelper.DataChangeListener() {
             @Override
-            public void onDataChange(String name, String imagePath, String audioPath) {
-                addButton(linearLayoutButtons, name, imagePath, audioPath);
+            public void onDataChange(String key, String name, String imagePath, String audioPath) {
+                addButton(linearLayoutButtons, key, name, imagePath, audioPath);
             }
         });
     }
 
-    private void addButton(LinearLayout linearLayoutButtons, String name, String imagePath, String audioPath) {
+    private void addButton(LinearLayout linearLayoutButtons, String key, String name, String imagePath, String audioPath) {
         Button newButton = new Button(this);
         newButton.setText(name);
 
         newButton.setOnClickListener(view -> {
             Toast.makeText(CrudActivity.this, "Nombre: " + name, Toast.LENGTH_SHORT).show();
+            editTextName.setText(name);
+            selectedImagePath = imagePath;
+            selectedAudioPath = audioPath;
+            selectedObjectId = key; // Usar el key generado por Firebase como ID
+
+            imageViewSelected.setImageURI(Uri.parse(selectedImagePath));
+            textViewAudioSelected.setText("Audio seleccionado: " + Uri.parse(selectedAudioPath).getLastPathSegment());
         });
 
         linearLayoutButtons.addView(newButton);
@@ -145,5 +198,31 @@ public class CrudActivity extends AppCompatActivity {
                 textViewAudioSelected.setText("Audio seleccionado: " + selectedUri.getLastPathSegment());
             }
         }
+    }
+
+    private void deleteFileFromFirebaseStorage(String fileUrl) {
+        // Crear una referencia al archivo usando su URL
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(fileUrl);
+
+        // Eliminar el archivo
+        storageReference.delete().addOnSuccessListener(aVoid -> {
+            // Archivo eliminado exitosamente
+            Toast.makeText(CrudActivity.this, "Archivo eliminado", Toast.LENGTH_SHORT).show();
+        }).addOnFailureListener(exception -> {
+            // Ocurrió un error al eliminar el archivo
+            Toast.makeText(CrudActivity.this, "Error al eliminar archivo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void resetFields() {
+        // Limpiar los campos
+        editTextName.setText("");
+        imageViewSelected.setImageResource(android.R.color.transparent);
+        textViewAudioSelected.setText("");
+        selectedImagePath = null;
+        selectedAudioPath = null;
+        selectedObjectId = null; // Asegurarse de que no hay ningún objeto seleccionado
+        linearLayoutButtons.removeAllViews(); // Eliminar todos los botones existentes
+        loadExistingData(); // Volver a cargar los datos para mostrar el estado actualizado
     }
 }

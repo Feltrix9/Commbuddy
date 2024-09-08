@@ -55,4 +55,3 @@ public class PersonalizadosActivity extends AppCompatActivity {
     }
 }
 
-

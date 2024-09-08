@@ -1,15 +1,9 @@
 package com.example.prueba1;
 
-
-import android.content.Context;
-import android.util.Log;
-
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,16 +39,17 @@ public class DatabaseHelper {
         databaseReference.push().setValue(mediaData);
     }
 
-    // Retrieve all records (equivalent to getAllData)
+    // Retrieve all records
     public void getAllData(DataChangeListener listener) {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key = snapshot.getKey(); // Obtener el ID generado por Firebase
                     String name = snapshot.child("name").getValue(String.class);
                     String imagePath = snapshot.child("image_path").getValue(String.class);
                     String audioPath = snapshot.child("audio_path").getValue(String.class);
-                    listener.onDataChange(name, imagePath, audioPath);
+                    listener.onDataChange(key, name, imagePath, audioPath); // Pasamos el key (ID) también
                 }
             }
 
@@ -65,11 +60,30 @@ public class DatabaseHelper {
         });
     }
 
-    public interface DataChangeListener {
-        void onDataChange(String name, String imagePath, String audioPath);
+    // Retrieve a single record by key
+    public void getData(String key, DataChangeListener listener) {
+        databaseReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String name = snapshot.child("name").getValue(String.class);
+                String imagePath = snapshot.child("image_path").getValue(String.class);
+                String audioPath = snapshot.child("audio_path").getValue(String.class);
+                listener.onDataChange(key, name, imagePath, audioPath);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 
-    // Update a record (equivalent to updateData)
+    // Delete a record
+    public void deleteData(String key) {
+        databaseReference.child(key).removeValue();
+    }
+
+    // Update a record
     public void updateData(String key, String name, String imagePath, String audioPath) {
         Map<String, Object> updatedData = new HashMap<>();
         updatedData.put("name", name);
@@ -78,22 +92,17 @@ public class DatabaseHelper {
         databaseReference.child(key).updateChildren(updatedData);
     }
 
-    // Delete a record (equivalent to deleteData)
-    public void deleteData(String key) {
-        databaseReference.child(key).removeValue();
-    }
-
     // Upload Image to Cloud Storage
     public void uploadImage(Uri imageUri, String imageName) {
         StorageReference imageRef = storageReference.child("images/" + imageName);
 
         UploadTask uploadTask = imageRef.putFile(imageUri);
-
         uploadTask.addOnSuccessListener(taskSnapshot -> {
             // Image uploaded successfully
             imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 String downloadUrl = uri.toString();
-                // You can update Realtime Database with download URL if needed
+                Log.d(TAG, "Image URL: " + downloadUrl);
+                // Update Realtime Database with download URL if needed
             }).addOnFailureListener(exception -> {
                 // Handle errors getting download URL
                 Log.e(TAG, "Error getting download URL", exception);
@@ -109,12 +118,12 @@ public class DatabaseHelper {
         StorageReference audioRef = storageReference.child("audio/" + audioName);
 
         UploadTask uploadTask = audioRef.putFile(audioUri);
-
         uploadTask.addOnSuccessListener(taskSnapshot -> {
             // Audio uploaded successfully
             audioRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 String downloadUrl = uri.toString();
-                // You can update Realtime Database with download URL if needed
+                Log.d(TAG, "Audio URL: " + downloadUrl);
+                // Update Realtime Database with download URL if needed
             }).addOnFailureListener(exception -> {
                 // Handle errors getting download URL
                 Log.e(TAG, "Error getting download URL", exception);
@@ -123,5 +132,10 @@ public class DatabaseHelper {
             // Handle unsuccessful uploads
             Log.e(TAG, "Audio upload failed", exception);
         });
+    }
+
+    // Interface to pass data changes
+    public interface DataChangeListener {
+        void onDataChange(String key, String name, String imagePath, String audioPath);
     }
 }
