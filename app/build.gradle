@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -35,13 +36,31 @@ dependencies {
     implementation libs.activity
     implementation libs.constraintlayout
     implementation libs.gridlayout
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
     implementation libs.firebase.database
     implementation libs.firebase.storage
     implementation libs.play.services.tasks
 >>>>>>> Stashed changes
+=======
+    implementation libs.firebase.database
+    implementation libs.firebase.storage
+>>>>>>> master
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    // Firebase
+    implementation 'com.google.firebase:firebase-database:20.1.0'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+
+// Glide
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
 }
