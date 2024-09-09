@@ -79,12 +79,12 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
     }
 
     private String getImageUrlForName(String name) {
-        if ("sirve?".equals(name)) {
-            return context.getString(R.string.url_sirve);
-        } else if ("lenny".equals(name)) {
+        if ("lenny".equals(name)) {
             return context.getString(R.string.url_lenny);
-        } else if ("Voz Victor".equals(name)) {
-            return context.getString(R.string.url_vozVictor);
+        } else if ("que quieres cocinar".equals(name)) {
+            return context.getString(R.string.url_que_quieres_cocinar);
+        }else if ("te ayudo a cocinar".equals(name)) {
+            return context.getString(R.string.url_te_ayudo_a_cocinar);
         }
         //else if ("prueba1".equals(name)) {
         //return context.getString(R.string.url_prueba1);
