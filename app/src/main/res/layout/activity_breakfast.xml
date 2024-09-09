@@ -73,7 +73,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/imageButtonFoot"
+            android:id="@+id/imageButtonFoods"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="90dp"

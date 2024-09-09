@@ -28,9 +28,16 @@
 
         <!-- Declaración de otras actividades -->
         <activity android:name=".BreakfastActivity" />
+        <activity android:name=".BreakfastFoodActivity" />
+        <activity android:name=".BreakfastDrinkActivity" />
         <activity android:name=".LunchActivity"/>
+        <activity android:name=".LunchDrinkActivity" />
+        <activity android:name=".LunchFoodActivity" />
         <activity android:name=".DinnerActivity"/>
+        <activity android:name=".DinnerDrinkActivity"/>
+        <activity android:name=".DinnerFoodActivity"/>
         <activity android:name=".CrudActivity" />
+
 
         <!-- Declaración de PersonalizadosActivity -->
         <activity android:name=".PersonalizadosActivity" />

@@ -8,9 +8,19 @@ material = "1.12.0"
 activity = "1.9.2"
 constraintlayout = "2.1.4"
 gridlayout = "1.0.0"
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseStorage = "21.0.0"
+playServicesTasks = "18.2.0"
+>>>>>>> Stashed changes
+=======
+googleGmsGoogleServices = "4.4.2"
+firebaseDatabase = "21.0.0"
+firebaseStorage = "21.0.0"
+>>>>>>> master
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -21,8 +31,17 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+play-services-tasks = { group = "com.google.android.gms", name = "play-services-tasks", version.ref = "playServicesTasks" }
+>>>>>>> Stashed changes
+=======
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+>>>>>>> master
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
