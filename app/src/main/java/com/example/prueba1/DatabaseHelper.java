@@ -1,73 +1,141 @@
 package com.example.prueba1;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.util.Log;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-    private static final String DATABASE_NAME = "db_test_crud.db";
-    private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_NAME = "media";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_NAME = "name";
-    private static final String COLUMN_IMAGE = "image_path";
-    private static final String COLUMN_AUDIO = "audio_path";
+import java.util.HashMap;
+import java.util.Map;
+
+public class DatabaseHelper {
+
+    private static final String TAG = "DatabaseHelper";
+    private DatabaseReference databaseReference;
+    private StorageReference storageReference;
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("media");
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " + TABLE_NAME + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " +
-                COLUMN_IMAGE + " TEXT, " +
-                COLUMN_AUDIO + " TEXT)";
-        db.execSQL(createTable);
+    // Insert a new record (equivalent to insertData)
+    public void insertData(String name, String imagePath, String audioPath) {
+        Map<String, Object> mediaData = new HashMap<>();
+        mediaData.put("name", name);
+        mediaData.put("image_path", imagePath);
+        mediaData.put("audio_path", audioPath);
+        databaseReference.push().setValue(mediaData);
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
+    // Retrieve all records
+    public void getAllData(DataChangeListener listener) {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key = snapshot.getKey(); // Obtener el ID generado por Firebase
+                    String name = snapshot.child("name").getValue(String.class);
+                    String imagePath = snapshot.child("image_path").getValue(String.class);
+                    String audioPath = snapshot.child("audio_path").getValue(String.class);
+                    listener.onDataChange(key, name, imagePath, audioPath); // Pasamos el key (ID) también
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 
-    // Insertar un nuevo registro
-    public boolean insertData(String name, String imagePath, String audioPath) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_NAME, name);
-        contentValues.put(COLUMN_IMAGE, imagePath);
-        contentValues.put(COLUMN_AUDIO, audioPath);
-        long result = db.insert(TABLE_NAME, null, contentValues);
-        return result != -1;
+    // Retrieve a single record by key
+    public void getData(String key, DataChangeListener listener) {
+        databaseReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String name = snapshot.child("name").getValue(String.class);
+                String imagePath = snapshot.child("image_path").getValue(String.class);
+                String audioPath = snapshot.child("audio_path").getValue(String.class);
+                listener.onDataChange(key, name, imagePath, audioPath);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 
-    // Obtener todos los registros
-    public Cursor getAllData() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+    // Delete a record
+    public void deleteData(String key) {
+        databaseReference.child(key).removeValue();
     }
 
-    // Actualizar un registro
-    public boolean updateData(int id, String name, String imagePath, String audioPath) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_NAME, name);
-        contentValues.put(COLUMN_IMAGE, imagePath);
-        contentValues.put(COLUMN_AUDIO, audioPath);
-        int result = db.update(TABLE_NAME, contentValues, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
-        return result > 0;
+    // Update a record
+    public void updateData(String key, String name, String imagePath, String audioPath) {
+        Map<String, Object> updatedData = new HashMap<>();
+        updatedData.put("name", name);
+        updatedData.put("image_path", imagePath);
+        updatedData.put("audio_path", audioPath);
+        databaseReference.child(key).updateChildren(updatedData);
     }
 
-    // Eliminar un registro
-    public boolean deleteData(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(TABLE_NAME, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
-        return result > 0;
+    // Upload Image to Cloud Storage
+    public void uploadImage(Uri imageUri, String imageName) {
+        StorageReference imageRef = storageReference.child("images/" + imageName);
+
+        UploadTask uploadTask = imageRef.putFile(imageUri);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            // Image uploaded successfully
+            imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String downloadUrl = uri.toString();
+                Log.d(TAG, "Image URL: " + downloadUrl);
+                // Update Realtime Database with download URL if needed
+            }).addOnFailureListener(exception -> {
+                // Handle errors getting download URL
+                Log.e(TAG, "Error getting download URL", exception);
+            });
+        }).addOnFailureListener(exception -> {
+            // Handle unsuccessful uploads
+            Log.e(TAG, "Image upload failed", exception);
+        });
+    }
+
+    // Upload Audio to Cloud Storage
+    public void uploadAudio(Uri audioUri, String audioName) {
+        StorageReference audioRef = storageReference.child("audio/" + audioName);
+
+        UploadTask uploadTask = audioRef.putFile(audioUri);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            // Audio uploaded successfully
+            audioRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String downloadUrl = uri.toString();
+                Log.d(TAG, "Audio URL: " + downloadUrl);
+                // Update Realtime Database with download URL if needed
+            }).addOnFailureListener(exception -> {
+                // Handle errors getting download URL
+                Log.e(TAG, "Error getting download URL", exception);
+            });
+        }).addOnFailureListener(exception -> {
+            // Handle unsuccessful uploads
+            Log.e(TAG, "Audio upload failed", exception);
+        });
+    }
+
+    // Interface to pass data changes
+    public interface DataChangeListener {
+        void onDataChange(String key, String name, String imagePath, String audioPath);
     }
 }

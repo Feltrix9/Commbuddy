@@ -2,24 +2,25 @@ package com.example.prueba1;
 
 public class Personalizado {
     private String nombre;
-    private int imagenResId; // ID del recurso de la imagen
-    private int sonidoResId; // ID del recurso de sonido
+    private String imagePath; // Ruta de la imagen en Firebase Storage
+    private String audioPath; // Ruta del sonido en Firebase Storage
 
-    public Personalizado(String nombre, int imagenResId, int sonidoResId) {
+    public Personalizado(String nombre, String imagePath, String audioPath) {
         this.nombre = nombre;
-        this.imagenResId = imagenResId;
-        this.sonidoResId = sonidoResId;
+        this.imagePath = imagePath;
+        this.audioPath = audioPath;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public int getImagenResId() {
-        return imagenResId;
+    public String getImagenPath() {
+        return imagePath;
     }
 
-    public int getSonidoResId() {
-        return sonidoResId;
+    public String getAudioPath() {
+        return audioPath;
     }
 }
+

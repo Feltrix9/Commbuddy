@@ -1,56 +1,57 @@
 package com.example.prueba1;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonalizadosActivity extends AppCompatActivity {
 
-    private LinearLayout linearLayoutPersonalizados;
+    private RecyclerView recyclerViewPersonalizados;
+    private PersonalizadoAdapter personalizadoAdapter;
+    private List<Personalizado> personalizadoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personalizados);
 
-        // Inicializar el layout donde se mostrarán los elementos personalizados
-        linearLayoutPersonalizados = findViewById(R.id.linearLayoutPersonalizados);
+        // Inicializar el RecyclerView
+        recyclerViewPersonalizados = findViewById(R.id.recyclerViewPersonalizados);
+        recyclerViewPersonalizados.setLayoutManager(new LinearLayoutManager(this));
 
-        // Botón para volver a la actividad anterior
-        Button btnVolver = findViewById(R.id.btnVolver);
-        btnVolver.setOnClickListener(new View.OnClickListener() {
+        // Inicializar la lista y el adaptador
+        personalizadoList = new ArrayList<>();
+        personalizadoAdapter = new PersonalizadoAdapter(this, personalizadoList);  // Usar PersonalizadoAdapter
+        recyclerViewPersonalizados.setAdapter(personalizadoAdapter);
+
+        // Cargar los elementos personalizados desde Firebase
+        cargarDatosDesdeFirebase();
+
+        Button backButton = findViewById(R.id.btnVolver);
+        backButton.setOnClickListener(v -> finish());
+    }
+
+    private void cargarDatosDesdeFirebase() {
+        PersonalizadoRepository.getInstance().loadPersonalizados(new PersonalizadoRepository.PersonalizadoLoadListener() {
             @Override
-            public void onClick(View v) {
-                finish(); // Cierra esta actividad y regresa a la anterior
+            public void onPersonalizadosLoaded(List<Personalizado> personalizados) {
+                personalizadoList.clear();
+                personalizadoList.addAll(personalizados);
+                personalizadoAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(PersonalizadosActivity.this, "Error al cargar datos: " + error, Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Obtener los elementos personalizados del CRUD
-        List<Personalizado> personalizados = PersonalizadoRepository.getInstance().getPersonalizados();
-
-        // Mostrar los elementos personalizados en la interfaz de usuario
-        for (Personalizado personalizado : personalizados) {
-            agregarElementoPersonalizado(personalizado);
-        }
-    }
-
-    private void agregarElementoPersonalizado(Personalizado personalizado) {
-        // Crear una vista para mostrar el nombre del personalizado
-        TextView textView = new TextView(this);
-        textView.setText(personalizado.getNombre());
-        textView.setTextSize(18);
-        textView.setPadding(0, 16, 0, 16);
-
-        // Agregar la vista al layout
-        linearLayoutPersonalizados.addView(textView);
-
-        // Aquí puedes agregar más lógica para mostrar imágenes, sonidos, etc.
     }
 }
+
