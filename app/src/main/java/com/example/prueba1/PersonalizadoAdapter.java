@@ -86,8 +86,8 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
         } else if ("Voz Victor".equals(name)) {
             return context.getString(R.string.url_vozVictor);
         }
-        // else if ("nombre_var".equals(name)) {
-        //return context.getString(R.string.url_nombre_var);
+        //else if ("prueba1".equals(name)) {
+        //return context.getString(R.string.url_prueba1);
         //}
         return null; // Si no hay una URL definida para el nombre
     }

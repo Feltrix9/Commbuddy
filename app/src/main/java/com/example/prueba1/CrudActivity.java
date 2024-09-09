@@ -137,9 +137,13 @@ public class CrudActivity extends AppCompatActivity {
                     // Reset fields and reload data
                     resetFields();
                     Toast.makeText(CrudActivity.this, "Objeto eliminado", Toast.LENGTH_SHORT).show();
+                    resetFields();
                 }
             });
         });
+
+        //voy y vuelvo
+
 
         Button backButton = findViewById(R.id.btnVolver);
         backButton.setOnClickListener(v -> finish());
@@ -208,9 +212,11 @@ public class CrudActivity extends AppCompatActivity {
         storageReference.delete().addOnSuccessListener(aVoid -> {
             // Archivo eliminado exitosamente
             Toast.makeText(CrudActivity.this, "Archivo eliminado", Toast.LENGTH_SHORT).show();
+            resetFields();
         }).addOnFailureListener(exception -> {
             // Ocurrió un error al eliminar el archivo
             Toast.makeText(CrudActivity.this, "Error al eliminar archivo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+            resetFields();
         });
     }
 
