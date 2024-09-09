@@ -169,6 +169,7 @@
                 android:textColor="#000000" />
         </LinearLayout>
 
+        <!-- No quiero -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -177,16 +178,18 @@
             android:gravity="center">
 
             <ImageButton
+                android:id="@+id/imageButtonNothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
+                android:src="@drawable/ic_nothing"
                 android:background="@null"
-                android:contentDescription="Añadir" />
+                android:contentDescription="Nada" />
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vacio"
+                android:text="nada"
                 android:textAlignment="center"
                 android:textColor="#000000" />
         </LinearLayout>
@@ -204,5 +207,16 @@
         android:text="Hoy me gustaria Beber"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnSiguiente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button"
+        android:text="Siguiente"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

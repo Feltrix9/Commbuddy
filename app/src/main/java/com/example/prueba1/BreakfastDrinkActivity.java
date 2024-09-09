@@ -1,22 +1,24 @@
 package com.example.prueba1;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 
 public class BreakfastDrinkActivity extends AppCompatActivity {
 
-    private MediaPlayer mediaPlayerJuice, mediaPlayerTea, mediaPlayerMilk, mediaPlayerYogurt, mediaPlayerWater;
+    private MediaPlayer mediaPlayerJuice, mediaPlayerTea, mediaPlayerMilk, mediaPlayerNothing, mediaPlayerYogurt, mediaPlayerWater;
     private TextView textView;
-    private ImageButton imageButtonJuice, imageButtonTea, imageButtonWater, imageButtonMilk, imagenButtonYogurt;
+    private ImageButton imageButtonJuice, imageButtonTea, imageButtonNothing, imageButtonMilk, imageButtonYogurt, imageButtonWater;
     private TextToSpeech textToSpeech;
+    private String selectedDrink = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class BreakfastDrinkActivity extends AppCompatActivity {
         mediaPlayerMilk = MediaPlayer.create(this, R.raw.milk_sound);
         mediaPlayerYogurt = MediaPlayer.create(this, R.raw.yogurt_sound);
         mediaPlayerWater = MediaPlayer.create(this, R.raw.water_sound);
+        mediaPlayerNothing = MediaPlayer.create(this, R.raw.nothing_drink_sound);
 
 
         // Inicializar TextView e ImageButtons
@@ -43,25 +46,56 @@ public class BreakfastDrinkActivity extends AppCompatActivity {
         imageButtonJuice = findViewById(R.id.imageButtonJuice);
         imageButtonTea = findViewById(R.id.imageButtonTea);
         imageButtonMilk = findViewById(R.id.imageButtonMilk);
-        imagenButtonYogurt = findViewById(R.id.imageButtonYogurt);
+        imageButtonYogurt = findViewById(R.id.imageButtonYogurt);
         imageButtonWater = findViewById(R.id.imageButtonWater);
+        imageButtonNothing = findViewById(R.id.imageButtonNothing);
 
         // Configurar listeners para cada botón usando un único método
-        imageButtonJuice.setOnClickListener(view -> handleButtonClick(mediaPlayerJuice, "Me podrias dar un Jugo Por favor"));
-        imageButtonTea.setOnClickListener(view -> handleButtonClick(mediaPlayerTea, "Me podrias dar un Té Por favor"));
-        imageButtonMilk.setOnClickListener(view -> handleButtonClick(mediaPlayerMilk, "Me podrias dar una Leche Por favor"));
-        imagenButtonYogurt.setOnClickListener(view -> handleButtonClick(mediaPlayerYogurt, "Me podrias dar un Yogurt Por favor"));
-        imageButtonWater.setOnClickListener(view -> handleButtonClick(mediaPlayerWater, "Me podrias dar una Agua Por favor"));
+        imageButtonJuice.setOnClickListener(view -> handleButtonClick(mediaPlayerJuice, "Me podrías dar un Jugo por favor", "Quiero un Jugo"));
+        imageButtonTea.setOnClickListener(view -> handleButtonClick(mediaPlayerTea, "Me podrías dar un Té por favor", "Quiero un Té"));
+        imageButtonMilk.setOnClickListener(view -> handleButtonClick(mediaPlayerMilk, "Me podrías dar una Leche por favor", "Quiero una Leche"));
+        imageButtonYogurt.setOnClickListener(view -> handleButtonClick(mediaPlayerYogurt, "Me podrías dar un Yogurt por favor", "Quiero un Yogurt"));
+        imageButtonWater.setOnClickListener(view -> handleButtonClick(mediaPlayerWater, "Me podrías dar  Agua por favor", "Quiero Agua"));
+        imageButtonNothing.setOnClickListener(view -> handleButtonClick(mediaPlayerNothing, "La verdad es que no quiero bebestibles hoy ", "No quiero nada para beber"));
 
-        // Botón para volver a la actividad anterior
+
+        // Botón "Volver" para regresar a la actividad anterior
         Button backButton = findViewById(R.id.btnVolver);
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> {
+            // Limpiar selección de bebida en SharedPreferences
+            SharedPreferences preferences = getSharedPreferences("UserSelections", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove("selectedDrink");
+            editor.remove("selectedFood"); // Limpiar también la selección de comida
+            editor.apply();
+
+            // Limpiar el texto en el TextView
+            textView.setText("");
+
+            // Finalizar la actividad
+            finish();
+        });
+
+        // Botón "Siguiente" para ir a la pantalla de comida
+        Button nextButton = findViewById(R.id.btnSiguiente);
+        nextButton.setOnClickListener(v -> {
+            // Guardar selección en SharedPreferences
+            SharedPreferences preferences = getSharedPreferences("UserSelections", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("selectedDrink", selectedDrink);
+            editor.apply();
+
+            Intent intent = new Intent(BreakfastDrinkActivity.this, BreakfastFoodActivity.class);
+            intent.putExtra("firstSelection", "drink"); // Indicar que primero se eligió bebida
+            startActivity(intent);
+        });
     }
 
     // Método para manejar clic del botón: cambiar el texto, reproducir sonido y leer la oración
-    private void handleButtonClick(MediaPlayer mediaPlayer, String text) {
+    private void handleButtonClick(MediaPlayer mediaPlayer, String text, String drink) {
         // Cambiar el texto en el TextView
         textView.setText(text);
+        selectedDrink = drink;
 
         // Reproducir el sonido
         if (mediaPlayer != null) {
@@ -85,6 +119,7 @@ public class BreakfastDrinkActivity extends AppCompatActivity {
         releaseMediaPlayer(mediaPlayerMilk);
         releaseMediaPlayer(mediaPlayerYogurt);
         releaseMediaPlayer(mediaPlayerWater);
+        releaseMediaPlayer(mediaPlayerNothing);
 
 
         // Liberar recursos de TextToSpeech
@@ -101,3 +136,8 @@ public class BreakfastDrinkActivity extends AppCompatActivity {
         }
     }
 }
+
+
+
+
+

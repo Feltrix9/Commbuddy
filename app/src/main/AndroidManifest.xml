@@ -37,6 +37,7 @@
         <activity android:name=".DinnerDrinkActivity"/>
         <activity android:name=".DinnerFoodActivity"/>
         <activity android:name=".CrudActivity" />
+        <activity android:name=".SummaryActivity"></activity>
 
 
         <!-- Declaración de PersonalizadosActivity -->

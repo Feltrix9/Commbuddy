@@ -1,5 +1,7 @@
 package com.example.prueba1;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -13,10 +15,11 @@ import java.util.Locale;
 
 public class LunchFoodActivity extends AppCompatActivity {
 
-    private MediaPlayer mediaPlayerMeat, mediaPlayerPasta, mediaPlayerRice, mediaPlayerEgg, mediaPlayersoup, mediaPlayerMash_Potatoes, mediaPlayerLettuce ;
+    private MediaPlayer mediaPlayerMeat, mediaPlayerPasta, mediaPlayerNothing, mediaPlayerRice, mediaPlayerEgg, mediaPlayersoup, mediaPlayerMash_Potatoes, mediaPlayerLettuce;
     private TextView textView;
-    private ImageButton imageButtonMeat, imageButtonPasta, imageButtonRice, imageButtonMash_Potatoes, imageButtonEgg, imageButtonSoup, imageButtonLettuce;
+    private ImageButton imageButtonMeat, imageButtonPasta, imageButtonRice, imageButtonNothing, imageButtonMash_Potatoes, imageButtonEgg, imageButtonSoup, imageButtonLettuce;
     private TextToSpeech textToSpeech;
+    private String selectedFood = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,6 @@ public class LunchFoodActivity extends AppCompatActivity {
         });
 
         // Inicializar MediaPlayer para cada botón
-
         mediaPlayerMeat = MediaPlayer.create(this, R.raw.meat_sound);
         mediaPlayerPasta = MediaPlayer.create(this, R.raw.pasta_sound);
         mediaPlayerRice = MediaPlayer.create(this, R.raw.rice_sound);
@@ -39,6 +41,7 @@ public class LunchFoodActivity extends AppCompatActivity {
         mediaPlayerEgg = MediaPlayer.create(this, R.raw.egg_sound);
         mediaPlayersoup = MediaPlayer.create(this, R.raw.soup_sound);
         mediaPlayerLettuce = MediaPlayer.create(this, R.raw.lettuce_sound);
+        mediaPlayerNothing = MediaPlayer.create(this, R.raw.nothing_drink_sound);
 
 
         // Inicializar TextView e ImageButtons
@@ -50,26 +53,55 @@ public class LunchFoodActivity extends AppCompatActivity {
         imageButtonEgg = findViewById(R.id.imageButtonEgg);
         imageButtonSoup = findViewById(R.id.imageButtonSoup);
         imageButtonLettuce = findViewById(R.id.imageButtonLettuce);
+        imageButtonNothing = findViewById(R.id.imageButtonNothing);
 
 
         // Configurar listeners para cada botón usando un único método
-        imageButtonMeat.setOnClickListener(view -> handleButtonClick(mediaPlayerMeat, "Me podrias dar Carne Por favor"));
-        imageButtonPasta.setOnClickListener(view -> handleButtonClick(mediaPlayerPasta, "Me podrias dar  Fideos Por favor"));
-        imageButtonRice.setOnClickListener(view -> handleButtonClick(mediaPlayerRice, "Me podrias dar  Arroz Por favor"));
-        imageButtonMash_Potatoes.setOnClickListener(view -> handleButtonClick(mediaPlayerMash_Potatoes, "Me podrias dar Pure de papas Por favor"));
-        imageButtonEgg.setOnClickListener(view -> handleButtonClick(mediaPlayerEgg, "Me podrias dar unos Huevos Por favor"));
-        imageButtonSoup.setOnClickListener(view -> handleButtonClick(mediaPlayersoup, "Me podrias dar una Sopa Por favor"));
-        imageButtonLettuce.setOnClickListener(view -> handleButtonClick(mediaPlayerLettuce, "Me podrias dar Lechuga Por favor"));
+        imageButtonMeat.setOnClickListener(view -> handleButtonClick(mediaPlayerMeat, "Me podrías dar Carne por favor", "Quiero Almorzar Carne"));
+        imageButtonPasta.setOnClickListener(view -> handleButtonClick(mediaPlayerPasta, "Me podrías dar Fideos por favor", "Quiero Almorzar Fideos"));
+        imageButtonRice.setOnClickListener(view -> handleButtonClick(mediaPlayerRice, "Me podrías dar Arroz por favor", "Quiero Almorzar Arroz"));
+        imageButtonMash_Potatoes.setOnClickListener(view -> handleButtonClick(mediaPlayerMash_Potatoes, "Me podrías dar Puré de papas por favor", "Quiero Almorzar Puré de papas"));
+        imageButtonEgg.setOnClickListener(view -> handleButtonClick(mediaPlayerEgg, "Me podrías dar unos Huevos por favor", "Quiero Almorzar Huevos"));
+        imageButtonSoup.setOnClickListener(view -> handleButtonClick(mediaPlayersoup, "Me podrías dar una Sopa por favor", "Quiero Almorzar Sopa"));
+        imageButtonLettuce.setOnClickListener(view -> handleButtonClick(mediaPlayerLettuce, "Me podrías dar Lechuga por favor", "Quiero Almorzar Lechuga"));
+        imageButtonNothing.setOnClickListener(view -> handleButtonClick(mediaPlayerNothing, "La verdad es que no quiero Comer en el almuerzo ", "No quiero comida"));
 
-        // Botón para volver a la actividad anterior
+        // Botón "Volver" para regresar a la actividad anterior
         Button backButton = findViewById(R.id.btnVolver);
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> {
+            // Limpiar selección de comida en SharedPreferences
+            SharedPreferences preferences = getSharedPreferences("UserSelections", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove("selectedFood");
+            editor.apply();
+
+            // Limpiar el texto en el TextView
+            textView.setText("");
+
+            // Finalizar la actividad
+            finish();
+        });
+
+        // Botón "Siguiente" para ir a la pantalla de resumen
+        Button nextButton = findViewById(R.id.btnSiguiente);
+        nextButton.setOnClickListener(v -> {
+            // Guardar selección en SharedPreferences
+            SharedPreferences preferences = getSharedPreferences("UserSelections", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("selectedFood", selectedFood);
+            editor.apply();
+
+            Intent intent = new Intent(LunchFoodActivity.this, SummaryActivity.class);
+            intent.putExtra("firstSelection", "food"); // Indicar que se eligió comida
+            startActivity(intent);
+        });
     }
 
     // Método para manejar clic del botón: cambiar el texto, reproducir sonido y leer la oración
-    private void handleButtonClick(MediaPlayer mediaPlayer, String text) {
+    private void handleButtonClick(MediaPlayer mediaPlayer, String text, String food) {
         // Cambiar el texto en el TextView
         textView.setText(text);
+        selectedFood = food;
 
         // Reproducir el sonido
         if (mediaPlayer != null) {
@@ -95,8 +127,7 @@ public class LunchFoodActivity extends AppCompatActivity {
         releaseMediaPlayer(mediaPlayerEgg);
         releaseMediaPlayer(mediaPlayersoup);
         releaseMediaPlayer(mediaPlayerLettuce);
-
-
+        releaseMediaPlayer(mediaPlayerNothing);
 
         // Liberar recursos de TextToSpeech
         if (textToSpeech != null) {
@@ -112,3 +143,4 @@ public class LunchFoodActivity extends AppCompatActivity {
         }
     }
 }
+

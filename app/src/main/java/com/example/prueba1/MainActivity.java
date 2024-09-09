@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         btnBreakfast.setOnClickListener(view -> {
             Toast.makeText(MainActivity.this, "Desayuno seleccionado", Toast.LENGTH_SHORT).show();
             playSound(mediaPlayerBreakfast);
-            Intent intent = new Intent(MainActivity.this, BreakfastActivity.class);
+            Intent intent = new Intent(MainActivity.this, BreakfastDrinkActivity.class);
             startActivity(intent);
         });
 
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             if (mediaPlayerLunch != null) {
                 playSound(mediaPlayerLunch);
                 Toast.makeText(MainActivity.this, "Almuerzo seleccionado", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, LunchActivity.class);
+                Intent intent = new Intent(MainActivity.this, LunchDrinkActivity.class);
                 startActivity(intent);
             }
         });
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             if (mediaPlayerDinner != null) {
                 playSound(mediaPlayerDinner);
                 Toast.makeText(MainActivity.this, "Cena seleccionada", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, DinnerActivity.class);
+                Intent intent = new Intent(MainActivity.this, DinnerDrinkActivity.class);
                 startActivity(intent);
             }
         });
