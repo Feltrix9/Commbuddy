@@ -3,5 +3,5 @@
     <string name="url_lenny">https://firebasestorage.googleapis.com/v0/b/commbuddy-ddcd7.appspot.com/o/images%2Flenny_image?alt=media&amp;token=ae1293a1-aa56-4e47-accc-ebdaab475365</string>
     <string name="url_que_quieres_cocinar">https://firebasestorage.googleapis.com/v0/b/commbuddy-ddcd7.appspot.com/o/images%2Fque%20quieres%20cocinar_image?alt=media&amp;token=1244e807-43e1-4a47-a618-7ffc4a986db5</string>
     <string name="url_te_ayudo_a_cocinar">https://firebasestorage.googleapis.com/v0/b/commbuddy-ddcd7.appspot.com/o/images%2Fte%20ayudo%20a%20cocinar_image?alt=media&amp;token=0035943a-6c2c-4a94-9a41-38bcf30fe2e1</string>
-    <!--<string name="url_prueba1"></string>-->
+    <string name="url_prueba1"></string>
 </resources>

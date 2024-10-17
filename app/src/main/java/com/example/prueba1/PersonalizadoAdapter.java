@@ -47,10 +47,10 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
 
         // Verificar y cargar la imagen usando la URL fija según el nombre
         String imageUrl = getImageUrlForName(personalizado.getNombre());
-        if (imageUrl != null) {
+        if (imageUrl != null && !imageUrl.isEmpty()) {
             ImageLoader.loadImage(imageUrl, holder.imageButtonPersonalizado);
         } else {
-            holder.imageButtonPersonalizado.setImageResource(R.drawable.placeholder_image); // Imagen por defecto
+            holder.imageButtonPersonalizado.setImageResource(R.drawable.placeholder_image); // Imagen por defecto si no hay URL
         }
 
         holder.imageButtonPersonalizado.setOnClickListener(v -> {
@@ -60,23 +60,27 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
                 mediaPlayer = null;
             }
 
+            if (personalizado.getAudioPath() != null && !personalizado.getAudioPath().isEmpty()) {
+                StorageReference sonidoRef = storage.getReferenceFromUrl(personalizado.getAudioPath());
 
-            StorageReference sonidoRef = storage.getReferenceFromUrl(personalizado.getAudioPath());
-
-            sonidoRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                mediaPlayer = new MediaPlayer();
-                try {
-                    mediaPlayer.setDataSource(uri.toString());
-                    mediaPlayer.prepare();
-                    mediaPlayer.start();
-                } catch (IOException e) {
-                    Log.e("Firebase", "Error al reproducir el sonido", e);
-                }
-            }).addOnFailureListener(e -> {
-                Log.e("Firebase", "Error al cargar el sonido", e);
-            });
+                sonidoRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    mediaPlayer = new MediaPlayer();
+                    try {
+                        mediaPlayer.setDataSource(uri.toString());
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+                    } catch (IOException e) {
+                        Log.e("Firebase", "Error al reproducir el sonido", e);
+                    }
+                }).addOnFailureListener(e -> {
+                    Log.e("Firebase", "Error al cargar el sonido", e);
+                });
+            } else {
+                Log.e("PersonalizadoAdapter", "El path de audio es nulo o vacío.");
+            }
         });
     }
+
 
     private String getImageUrlForName(String name) {
         if ("lenny".equals(name)) {
@@ -86,9 +90,9 @@ public class PersonalizadoAdapter extends RecyclerView.Adapter<PersonalizadoAdap
         }else if ("te ayudo a cocinar".equals(name)) {
             return context.getString(R.string.url_te_ayudo_a_cocinar);
         }
-        //else if ("prueba1".equals(name)) {
-        //return context.getString(R.string.url_prueba1);
-        //}
+        else if ("prueba1".equals(name)) {
+        return context.getString(R.string.url_prueba1);
+        }
         return null; // Si no hay una URL definida para el nombre
     }
 
