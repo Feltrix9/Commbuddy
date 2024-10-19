@@ -10,81 +10,79 @@
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="CommBuddy"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:paddingBottom="16dp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="90dp" />
+
+    <ImageButton
+        android:id="@+id/btnmeals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_meals"
+        android:background="@null"
+        android:contentDescription="Comidas"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvmeals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Comidas"
-        android:textSize="24sp"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:paddingBottom="16dp" />
-    <Button
-        android:id="@+id/btnVolver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Volver"
-        android:layout_gravity="start"
-        android:background="@drawable/rounded_button"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
-
-
-    <ImageButton
-        android:id="@+id/btnBreakfast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_breakfast"
-        android:background="@null"
-        android:contentDescription="Desayuno"
-        android:layout_gravity="center"
-        android:paddingBottom="16dp" />
-
-    <TextView
-        android:id="@+id/tvBreakfast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Desayuno"
         android:textSize="18sp"
         android:textAlignment="center"
         android:textColor="#000000"
         android:paddingBottom="24dp" />
 
     <ImageButton
-        android:id="@+id/btnLunch"
+        android:id="@+id/btnEmociones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_lunch"
-        android:background="@null"
-        android:contentDescription="Almuerzo"
-        android:layout_gravity="center"
-        android:paddingBottom="16dp" />
-
-    <TextView
-        android:id="@+id/tvLunch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Almuerzo"
-        android:textSize="18sp"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:paddingBottom="24dp" />
-
-    <ImageButton
-        android:id="@+id/btnDinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_dinner"
+        android:src="@drawable/ic_icon"
         android:background="@null"
         android:contentDescription="Cena"
         android:layout_gravity="center"
         android:paddingBottom="16dp" />
 
     <TextView
-        android:id="@+id/tvDinner"
+        android:id="@+id/tvEmociones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cena"
+        android:text="Emociones"
         android:textSize="18sp"
         android:textAlignment="center"
         android:textColor="#000000" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@+id/btnGoToCrud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ir al CRUD"
+        android:layout_gravity="center"
+        android:padding="16dp" />
+
+    <Button
+        android:id="@+id/btnPersonalizados"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Personalizados"
+        android:layout_marginTop="16dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_margin="16dp" />
 
 
 </LinearLayout>
