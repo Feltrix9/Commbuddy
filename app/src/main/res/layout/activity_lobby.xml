@@ -59,6 +59,26 @@
         android:textAlignment="center"
         android:textColor="#000000" />
 
+    <ImageButton
+        android:id="@+id/btnAcciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_salir_de_la_casa"
+        android:background="@null"
+        android:contentDescription="Acciones"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvAcciones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Acciones"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:paddingBottom="24dp" />
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="20dp" />

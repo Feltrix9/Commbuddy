@@ -27,8 +27,8 @@ import java.util.List;
 
 public class LobbyActivity extends AppCompatActivity {
 
-    private ImageButton btnMeals, btnEmociones;
-    private MediaPlayer mediaPlayerMeals, mediaPlayerEmociones;
+    private ImageButton btnMeals, btnEmociones, btnAcciones;
+    private MediaPlayer mediaPlayerMeals, mediaPlayerEmociones,mediaPlayerAcciones;
     private Button btnGoToCrud, btnPersonalizados;
     private RecyclerView recyclerView;
     private PersonalizadoAdapter personalizadoAdapter;
@@ -47,12 +47,17 @@ public class LobbyActivity extends AppCompatActivity {
 
         btnMeals = findViewById(R.id.btnmeals);
         btnEmociones = findViewById(R.id.btnEmociones);
+        btnAcciones = findViewById(R.id.btnAcciones);
 
 
 
         // Inicializar MediaPlayers con sonidos opcionales
         mediaPlayerMeals = MediaPlayer.create(this, R.raw.comidas_sound);
         mediaPlayerEmociones = MediaPlayer.create(this, R.raw.emociones_sound);
+        mediaPlayerAcciones = MediaPlayer.create(this, R.raw.acciones_sound);
+
+
+
 
         btnGoToCrud = findViewById(R.id.btnGoToCrud);
 
@@ -64,6 +69,10 @@ public class LobbyActivity extends AppCompatActivity {
         if (mediaPlayerMeals == null) {
             Toast.makeText(this, "Error: Archivo de sonido para cena no encontrado", Toast.LENGTH_SHORT).show();
         }
+        if (mediaPlayerAcciones == null) {
+            Toast.makeText(this, "Error: Archivo de sonido para cena no encontrado", Toast.LENGTH_SHORT).show();
+        }
+
 
         // Configurar botones para reproducir sonidos y cambiar de actividad
         btnMeals.setOnClickListener(view -> {
@@ -80,6 +89,15 @@ public class LobbyActivity extends AppCompatActivity {
                 playSound(mediaPlayerEmociones);
                 Toast.makeText(LobbyActivity.this, "Emociones seleccionadas", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LobbyActivity.this, EmocionesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnAcciones.setOnClickListener(view -> {
+            if (mediaPlayerAcciones != null) {
+                playSound(mediaPlayerAcciones);
+                Toast.makeText(LobbyActivity.this, "Acciones seleccionadas", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LobbyActivity.this, AccionesActivity.class);
                 startActivity(intent);
             }
         });

@@ -38,6 +38,7 @@
         <activity android:name=".DinnerFoodActivity"/>
         <activity android:name=".CrudActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".AccionesActivity" />
         <activity android:name=".EmocionesActivity" />
         <activity android:name=".EmocionesActivity2" />
         <activity android:name=".EmocionesActivity3" />
